@@ -43,17 +43,17 @@ const section1 = document.querySelector(`#section--1`);
 
 btnScrollTo.addEventListener(`click`, function (e) {
   const s1coords = section1.getBoundingClientRect();
-  console.log(s1coords);
+  // console.log(s1coords);
 
-  console.log(e.target.getBoundingClientRect());
+  // console.log(e.target.getBoundingClientRect());
 
-  console.log(`Current scroll (X/Y)`, window.pageXOffset, window.pageYOffset);
+  // console.log(`Current scroll (X/Y)`, window.pageXOffset, window.pageYOffset);
 
-  console.log(
-    `height/width viewport`,
-    document.documentElement.clientHeight,
-    document.documentElement.clientWidth
-  );
+  // console.log(
+  //   `height/width viewport`,
+  //   document.documentElement.clientHeight,
+  //   document.documentElement.clientWidth
+  // );
 
   // Scrolling
   // window.scrollTo(
@@ -69,3 +69,35 @@ btnScrollTo.addEventListener(`click`, function (e) {
 
   section1.scrollIntoView({ behavior: `smooth` });
 });
+
+/////////////////////////////////////////////////////////////
+// Выбор, создание и удаление элементов
+const header = document.querySelector(`.header`);
+
+const message = document.createElement(`div`);
+message.classList.add(`cookie-message`);
+// message.textContent = `We use cookied for improved functionalyty and analytics`;
+message.innerHTML = `We use cookied for improved functionalyty and analytics. <buttton class="btn btn--close-cookie">Got it!</button>`;
+
+// Метод Element.prepend()вставляет набор Nodeобъектов или строковых объектов перед первым дочерним элементом Element. Строковые объекты вставляются как эквивалентные Text узлы.
+// header.prepend(message);
+// Метод Element.append() вставляет узлы или строки с текстом в конец Element. Строки с текстом вставляются как текстовое содержимое.
+header.append(message);
+
+// Delete elements
+document
+  .querySelector(`.btn--close-cookie`)
+  .addEventListener(`click`, function () {
+    // message.remove();
+    message.parentElement.removeChild(message);
+  });
+
+message.style.backgroundColor = `#37383d`;
+message.style.width = `103%`;
+
+// Изменение цвета
+document.documentElement.style.setProperty(`--color-primary`, `orangered`);
+
+// изменение размера
+message.style.height =
+  Number.parseFloat(getComputedStyle(message).height) + 40 + `px`;
