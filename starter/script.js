@@ -96,6 +96,36 @@ document.querySelector(`.nav__links`).addEventListener(`click`, function (e) {
   }
 });
 
+// Компонент кладок
+const tabs = document.querySelectorAll(`.operations__tab`);
+const tabsContainers = document.querySelector(`.operations__tab-container`);
+const tabsContent = document.querySelectorAll(`.operations__content`);
+
+// tabs.forEach(t => t.addEventListener(`click`, () => console.log(`TAB`))); // Так делать нельзя // замедляет страницу, если будет много вкладок, получится копия для каждой вкладки
+// Используем делегирование событий // Для этого метода важно прекреплять обработчик  событий на общем родительском элементе
+tabsContainers.addEventListener(`click`, function (e) {
+  // Обнаруживается ближайшая вкладка операции(на котторую нажали)
+  // Метод Element.closest() возвращает ближайший родительский элемент (или сам элемент)
+  const clicked = e.target.closest(`.operations__tab`);
+  // console.log(clicked);
+  // Guard clause // защитная оговорка
+  // игнорирование щелчков вне области `.operations__tab` // когда есть Null(ошибка), то !clicked значение станет истеннной и последующий код не будет выполнен, если clicked тру, то возврат не будет выполнен и последующий код будет выполнен
+  if (!clicked) return;
+
+  // Удалить активный класс
+  tabs.forEach(t => t.classList.remove(`operations__tab--active`));
+  tabsContent.forEach(c => c.classList.remove(`operations__content--active`));
+
+  // Активная вкладка
+  clicked.classList.add(`operations__tab--active`);
+
+  // Активировать область содержимого
+  // console.log(clicked.dataset.tab);
+  document
+    .querySelector(`.operations__content--${clicked.dataset.tab}`)
+    .classList.add(`operations__content--active`);
+});
+
 /////////////////////////////////////////////////////////////
 // Выбор, создание и удаление элементов
 const header = document.querySelector(`.header`);
