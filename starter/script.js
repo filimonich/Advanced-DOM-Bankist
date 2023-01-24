@@ -143,44 +143,64 @@ const handleHover = function (e) {
   }
 };
 
-// Передача "аргумента" в обработчик
+// Sticky navigation: intersection observer API // Липкая навигация: API наблюдателя пересечений
 
-// Событие mouseover запускается, Element когда указывающее устройство (например, мышь или трекпад) используется для перемещения курсора на элемент или один из его дочерних элементов.
-// addEventListener во втором параметре всегда ожидает функцию, поэтому используется функция обратного вызова
-// метод связывания // Метод bind() создаёт новую функцию, которая при вызове устанавливает в качестве контекста выполнения this предоставленное значение. В метод также передаётся набор аргументов, которые будут установлены перед переданными в привязанную функцию аргументами при её вызове.
-nav.addEventListener(`mouseover`, handleHover.bind(0.4));
-
-// Событие mouseout запускается, Element когда указывающее устройство (обычно мышь) используется для перемещения курсора таким образом, чтобы он больше не содержался внутри элемента или одного из его дочерних элементов.
-nav.addEventListener(`mouseout`, handleHover.bind(1));
-
-/////////////////////////////////////////////////////////////
-// Выбор, создание и удаление элементов
 const header = document.querySelector(`.header`);
+const navHeight = nav.getBoundingClientRect().height;
+console.log(navHeight);
 
-const message = document.createElement(`div`);
-message.classList.add(`cookie-message`);
-// message.textContent = `We use cookied for improved functionalyty and analytics`;
-message.innerHTML = `We use cookied for improved functionalyty and analytics. <buttton class="btn btn--close-cookie">Got it!</button>`;
+const stickyNav = function (entries) {
+  const [entry] = entries;
+  // console.log(entry);
+  if (!entry.isIntersecting) nav.classList.add(`sticky`);
+  else nav.classList.remove(`sticky`);
+};
 
-// Метод Element.prepend()вставляет набор Nodeобъектов или строковых объектов перед первым дочерним элементом Element. Строковые объекты вставляются как эквивалентные Text узлы.
-// header.prepend(message);
-// Метод Element.append() вставляет узлы или строки с текстом в конец Element. Строки с текстом вставляются как текстовое содержимое.
-header.append(message);
+const headerObserver = new IntersectionObserver(stickyNav, {
+  root: null,
+  threshold: 0,
+  rootMargin: `-${navHeight}px`,
+});
+headerObserver.observe(header);
 
-// Delete elements
-document
-  .querySelector(`.btn--close-cookie`)
-  .addEventListener(`click`, function () {
-    // message.remove();
-    message.parentElement.removeChild(message);
-  });
+// // Передача "аргумента" в обработчик
 
-message.style.backgroundColor = `#37383d`;
-message.style.width = `103%`;
+// // Событие mouseover запускается, Element когда указывающее устройство (например, мышь или трекпад) используется для перемещения курсора на элемент или один из его дочерних элементов.
+// // addEventListener во втором параметре всегда ожидает функцию, поэтому используется функция обратного вызова
+// // метод связывания // Метод bind() создаёт новую функцию, которая при вызове устанавливает в качестве контекста выполнения this предоставленное значение. В метод также передаётся набор аргументов, которые будут установлены перед переданными в привязанную функцию аргументами при её вызове.
+// nav.addEventListener(`mouseover`, handleHover.bind(0.4));
 
-// Изменение цвета
-document.documentElement.style.setProperty(`--color-primary`, `orangered`);
+// // Событие mouseout запускается, Element когда указывающее устройство (обычно мышь) используется для перемещения курсора таким образом, чтобы он больше не содержался внутри элемента или одного из его дочерних элементов.
+// nav.addEventListener(`mouseout`, handleHover.bind(1));
 
-// изменение размера
-message.style.height =
-  Number.parseFloat(getComputedStyle(message).height) + 40 + `px`;
+// /////////////////////////////////////////////////////////////
+// // Выбор, создание и удаление элементов
+// const header = document.querySelector(`.header`);
+
+// const message = document.createElement(`div`);
+// message.classList.add(`cookie-message`);
+// // message.textContent = `We use cookied for improved functionalyty and analytics`;
+// message.innerHTML = `We use cookied for improved functionalyty and analytics. <buttton class="btn btn--close-cookie">Got it!</button>`;
+
+// // Метод Element.prepend()вставляет набор Nodeобъектов или строковых объектов перед первым дочерним элементом Element. Строковые объекты вставляются как эквивалентные Text узлы.
+// // header.prepend(message);
+// // Метод Element.append() вставляет узлы или строки с текстом в конец Element. Строки с текстом вставляются как текстовое содержимое.
+// header.append(message);
+
+// // Delete elements
+// document
+//   .querySelector(`.btn--close-cookie`)
+//   .addEventListener(`click`, function () {
+//     // message.remove();
+//     message.parentElement.removeChild(message);
+//   });
+
+// message.style.backgroundColor = `#37383d`;
+// message.style.width = `103%`;
+
+// // Изменение цвета
+// document.documentElement.style.setProperty(`--color-primary`, `orangered`);
+
+// // изменение размера
+// message.style.height =
+//   Number.parseFloat(getComputedStyle(message).height) + 40 + `px`;
