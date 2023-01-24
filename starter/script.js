@@ -6,6 +6,10 @@ const btnCloseModal = document.querySelector('.btn--close-modal');
 const btnsOpenModal = document.querySelectorAll('.btn--show-modal');
 const btnScrollTo = document.querySelector(`.btn--scroll-to`);
 const section1 = document.querySelector(`#section--1`);
+const nav = document.querySelector(`.nav`);
+const tabs = document.querySelectorAll(`.operations__tab`);
+const tabsContainers = document.querySelector(`.operations__tab-container`);
+const tabsContent = document.querySelectorAll(`.operations__content`);
 
 ///////////////////////////////////////
 // Modal window
@@ -96,10 +100,7 @@ document.querySelector(`.nav__links`).addEventListener(`click`, function (e) {
   }
 });
 
-// Компонент кладок
-const tabs = document.querySelectorAll(`.operations__tab`);
-const tabsContainers = document.querySelector(`.operations__tab-container`);
-const tabsContent = document.querySelectorAll(`.operations__content`);
+// create tab switching
 
 // tabs.forEach(t => t.addEventListener(`click`, () => console.log(`TAB`))); // Так делать нельзя // замедляет страницу, если будет много вкладок, получится копия для каждой вкладки
 // Используем делегирование событий // Для этого метода важно прекреплять обработчик  событий на общем родительском элементе
@@ -125,6 +126,32 @@ tabsContainers.addEventListener(`click`, function (e) {
     .querySelector(`.operations__content--${clicked.dataset.tab}`)
     .classList.add(`operations__content--active`);
 });
+
+// Эффект затухания меню
+const handleHover = function (e) {
+  // console.log(this, e.currentTarget);
+  if (e.target.classList.contains(`nav__link`)) {
+    const link = e.target;
+    const siblings = link.closest(`.nav`).querySelectorAll(`.nav__link`);
+    const logo = link.closest(`.nav`).querySelector(`img`);
+
+    // Изменение прозрачности
+    siblings.forEach(el => {
+      if (el !== link) el.style.opacity = this;
+    });
+    logo.style.opacity = this;
+  }
+};
+
+// Передача "аргумента" в обработчик
+
+// Событие mouseover запускается, Element когда указывающее устройство (например, мышь или трекпад) используется для перемещения курсора на элемент или один из его дочерних элементов.
+// addEventListener во втором параметре всегда ожидает функцию, поэтому используется функция обратного вызова
+// метод связывания // Метод bind() создаёт новую функцию, которая при вызове устанавливает в качестве контекста выполнения this предоставленное значение. В метод также передаётся набор аргументов, которые будут установлены перед переданными в привязанную функцию аргументами при её вызове.
+nav.addEventListener(`mouseover`, handleHover.bind(0.4));
+
+// Событие mouseout запускается, Element когда указывающее устройство (обычно мышь) используется для перемещения курсора таким образом, чтобы он больше не содержался внутри элемента или одного из его дочерних элементов.
+nav.addEventListener(`mouseout`, handleHover.bind(1));
 
 /////////////////////////////////////////////////////////////
 // Выбор, создание и удаление элементов
