@@ -186,6 +186,35 @@ allSection.forEach(function (section) {
   section.classList.add(`section--hidden`);
 });
 
+// Lazy loading images // ленивая загрузка изображений
+// выбираем все изображения, которые имеют свойство data-src(дэта сорс)
+const imgTargets = document.querySelectorAll(`img[data-src]`);
+// console.log(imgTargets);
+
+const loadImg = function (entries, observer) {
+  const [entry] = entries;
+  // console.log(entry);
+
+  if (!entry.isIntersecting) return;
+
+  // Replace src with data-src // Заменить src на data-src
+  entry.target.src = entry.target.dataset.src;
+
+  entry.target.addEventListener(`load`, function () {
+    entry.target.classList.remove(`lazy-img`);
+  });
+
+  observer.unobserve(entry.target);
+};
+
+const imgObserver = new IntersectionObserver(loadImg, {
+  root: null,
+  threshold: 0,
+  rootMargin: `200px`,
+});
+
+imgTargets.forEach(img => imgObserver.observe(img));
+
 // // Передача "аргумента" в обработчик
 
 // // Событие mouseover запускается, Element когда указывающее устройство (например, мышь или трекпад) используется для перемещения курсора на элемент или один из его дочерних элементов.
