@@ -43,7 +43,7 @@ document.addEventListener('keydown', function (e) {
 });
 
 ///////////////////////////////////////
-// 188 Implementing Smooth Scrolling // Реализация плавной прокрутки
+// Implementing Smooth Scrolling // Реализация плавной прокрутки
 // Кнопка скрола
 btnScrollTo.addEventListener(`click`, function (e) {
   const s1coords = section1.getBoundingClientRect();
