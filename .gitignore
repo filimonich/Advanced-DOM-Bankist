@@ -3,3 +3,4 @@ dist/
 .vscode
 .prettierrc
 .parcel-cache
+.cache/
