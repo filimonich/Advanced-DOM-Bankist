@@ -13,7 +13,7 @@ const tabsContent = document.querySelectorAll(`.operations__content`);
 const header = document.querySelector(`.header`);
 
 ///////////////////////////////////////
-// Modal window
+// Modal window // Модальное окно
 
 const openModal = function (e) {
   // предотвращение прокрутки страницы в самый верх, при нажатии на кнопку логина
@@ -88,8 +88,10 @@ btnScrollTo.addEventListener(`click`, function (e) {
 // });
 
 // Делегирования событий
-// 1. Добавить слушателя событий к общему родительскому элементу // Add event listener to common parent element
-// 2. Определить, какой элемент вызвал событие // Determine what element originated the event
+// 1. Добавить слушателя событий к общему родительскому элементу
+// Add event listener to common parent element
+// 2. Определить, какой элемент вызвал событие
+// Determine what element originated the event
 
 document.querySelector(`.nav__links`).addEventListener(`click`, function (e) {
   e.preventDefault();
@@ -102,17 +104,23 @@ document.querySelector(`.nav__links`).addEventListener(`click`, function (e) {
 });
 
 ///////////////////////////////////////
-// create tab switching
+// create tab switching // создать переключение вкладок
 
-// tabs.forEach(t => t.addEventListener(`click`, () => console.log(`TAB`))); // Так делать нельзя // замедляет страницу, если будет много вкладок, получится копия для каждой вкладки
-// Используем делегирование событий // Для этого метода важно прекреплять обработчик  событий на общем родительском элементе
+// Так делать нельзя
+// tabs.forEach(t => t.addEventListener(`click`, () => console.log(`TAB`)));
+// замедляет страницу, если будет много вкладок, получится копия для каждой вкладки
+// Используем делегирование событий // Для этого метода важно прекреплять обработчик
+// событий на общем родительском элементе
 tabsContainers.addEventListener(`click`, function (e) {
   // Обнаруживается ближайшая вкладка операции(на котторую нажали)
   // Метод Element.closest() возвращает ближайший родительский элемент (или сам элемент)
   const clicked = e.target.closest(`.operations__tab`);
   // console.log(clicked);
   // Guard clause // защитная оговорка
-  // игнорирование щелчков вне области `.operations__tab` // когда есть Null(ошибка), то !clicked значение станет истеннной и последующий код не будет выполнен, если clicked тру, то возврат не будет выполнен и последующий код будет выполнен
+  // игнорирование щелчков вне области `.operations__tab`
+  // когда есть Null(ошибка), то !clicked значение станет истеннной
+  // и последующий код не будет выполнен, если clicked тру,
+  // то возврат не будет выполнен и последующий код будет выполнен
   if (!clicked) return;
 
   // Удалить активный класс
@@ -146,14 +154,13 @@ const handleHover = function (e) {
 };
 
 ///////////////////////////////////////
-// Sticky navigation: intersection observer API // Липкая навигация: API наблюдателя пересечений
+// Sticky navigation: intersection observer API
+// Липкая навигация: API наблюдателя пересечений
 
 const navHeight = nav.getBoundingClientRect().height;
-console.log(navHeight);
 
 const stickyNav = function (entries) {
   const [entry] = entries;
-  // console.log(entry);
   if (!entry.isIntersecting) nav.classList.add(`sticky`);
   else nav.classList.remove(`sticky`);
 };
@@ -170,7 +177,6 @@ const allSection = document.querySelectorAll(`.section`);
 
 const revealSection = function (entries, observer) {
   const [entry] = entries;
-  // console.log(entry);
 
   if (!entry.isIntersecting) return;
 
@@ -192,11 +198,9 @@ allSection.forEach(function (section) {
 // Lazy loading images // ленивая загрузка изображений
 // выбираем все изображения, которые имеют свойство data-src(дэта сорс)
 const imgTargets = document.querySelectorAll(`img[data-src]`);
-// console.log(imgTargets);
 
 const loadImg = function (entries, observer) {
   const [entry] = entries;
-  // console.log(entry);
 
   if (!entry.isIntersecting) return;
 
@@ -307,12 +311,20 @@ slider();
 ///////////////////////////////////////
 // // Передача "аргумента" в обработчик
 
-// Событие mouseover запускается, Element когда указывающее устройство (например, мышь или трекпад) используется для перемещения курсора на элемент или один из его дочерних элементов.
-// addEventListener во втором параметре всегда ожидает функцию, поэтому используется функция обратного вызова
-// метод связывания // Метод bind() создаёт новую функцию, которая при вызове устанавливает в качестве контекста выполнения this предоставленное значение. В метод также передаётся набор аргументов, которые будут установлены перед переданными в привязанную функцию аргументами при её вызове.
+// Событие mouseover запускается, Element когда указывающее устройство
+// (например, мышь или трекпад) используется для перемещения курсора
+// на элемент или один из его дочерних элементов.
+// addEventListener во втором параметре всегда ожидает функцию,
+// поэтому используется функция обратного вызова.
+// метод связывания // Метод bind() создаёт новую функцию,
+// которая при вызове устанавливает в качестве контекста выполнения this,
+// предоставленное значение. В метод также передаётся набор аргументов,
+// которые будут установлены перед переданными в привязанную функцию аргументами при её вызове.
 nav.addEventListener(`mouseover`, handleHover.bind(0.4));
 
-// Событие mouseout запускается, Element когда указывающее устройство (обычно мышь) используется для перемещения курсора таким образом, чтобы он больше не содержался внутри элемента или одного из его дочерних элементов.
+// Событие mouseout запускается, Element когда указывающее устройство (обычно мышь)
+// используется для перемещения курсора таким образом, чтобы он больше
+// не содержался внутри элемента или одного из его дочерних элементов.
 nav.addEventListener(`mouseout`, handleHover.bind(1));
 
 /////////////////////////////////////////////////////////////
@@ -321,11 +333,17 @@ nav.addEventListener(`mouseout`, handleHover.bind(1));
 // const message = document.createElement(`div`);
 // message.classList.add(`cookie-message`);
 // // message.textContent = `We use cookied for improved functionalyty and analytics`;
-// message.innerHTML = `We use cookied for improved functionalyty and analytics. <buttton class="btn btn--close-cookie">Got it!</button>`;
+// message.innerHTML = `
+// We use cookied for improved functionalyty and analytics.
+// <buttton class="btn btn--close-cookie">Got it!</button>
+// `;
 
-// // Метод Element.prepend()вставляет набор Nodeобъектов или строковых объектов перед первым дочерним элементом Element. Строковые объекты вставляются как эквивалентные Text узлы.
+// // Метод Element.prepend()вставляет набор Nodeобъектов
+// или строковых объектов перед первым дочерним элементом Element.
+// Строковые объекты вставляются как эквивалентные Text узлы.
 // // header.prepend(message);
-// // Метод Element.append() вставляет узлы или строки с текстом в конец Element. Строки с текстом вставляются как текстовое содержимое.
+// // Метод Element.append() вставляет узлы или строки с текстом
+// в конец Element. Строки с текстом вставляются как текстовое содержимое.
 // header.append(message);
 
 // // Delete elements
