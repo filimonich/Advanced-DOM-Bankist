@@ -197,7 +197,8 @@ allSection.forEach(function (section) {
 ///////////////////////////////////////
 // Lazy loading images // ленивая загрузка изображений
 // выбираем все изображения, которые имеют свойство data-src(дэта сорс)
-const imgTargets = document.querySelectorAll(`img[data-src]`);
+// const imgTargets = document.querySelectorAll(`img[data-src]`);
+const imgTargets = document.querySelectorAll(`img[srcset]`);
 
 const loadImg = function (entries, observer) {
   const [entry] = entries;
