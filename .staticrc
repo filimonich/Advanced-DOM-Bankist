@@ -1,0 +1,5 @@
+{
+  "staticPath": ".",
+  "staticOutDir": ".",
+  "relative": true
+}
