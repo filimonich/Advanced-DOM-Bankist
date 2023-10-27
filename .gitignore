@@ -1,6 +1,6 @@
 node_modules/
 dist/
 .vscode
-.prettierrc
 .parcel-cache
 .cache/
+package-lock.json

@@ -15,14 +15,14 @@ const header = document.querySelector(`.header`);
 ///////////////////////////////////////
 // Modal window // Модальное окно
 
-const openModal = function (e) {
+const openModal = e => {
   // предотвращение прокрутки страницы в самый верх, при нажатии на кнопку логина
   e.preventDefault();
   modal.classList.remove('hidden');
   overlay.classList.remove('hidden');
 };
 
-const closeModal = function () {
+const closeModal = () => {
   modal.classList.add('hidden');
   overlay.classList.add('hidden');
 };
@@ -36,7 +36,7 @@ btnsOpenModal.forEach(btn => btn.addEventListener(`click`, openModal));
 btnCloseModal.addEventListener('click', closeModal);
 overlay.addEventListener('click', closeModal);
 
-document.addEventListener('keydown', function (e) {
+document.addEventListener('keydown', e => {
   if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
     closeModal();
   }
@@ -45,7 +45,7 @@ document.addEventListener('keydown', function (e) {
 ///////////////////////////////////////
 // Implementing Smooth Scrolling // Реализация плавной прокрутки
 // Кнопка скрола
-btnScrollTo.addEventListener(`click`, function (e) {
+btnScrollTo.addEventListener(`click`, e => {
   const s1coords = section1.getBoundingClientRect();
   // console.log(s1coords);
 
@@ -93,7 +93,7 @@ btnScrollTo.addEventListener(`click`, function (e) {
 // 2. Определить, какой элемент вызвал событие
 // Determine what element originated the event
 
-document.querySelector(`.nav__links`).addEventListener(`click`, function (e) {
+document.querySelector(`.nav__links`).addEventListener(`click`, e => {
   e.preventDefault();
   // Стратегия подбора
   // проверка, содеражит ли целевой элемент класс, который указан в параметре
@@ -111,7 +111,7 @@ document.querySelector(`.nav__links`).addEventListener(`click`, function (e) {
 // замедляет страницу, если будет много вкладок, получится копия для каждой вкладки
 // Используем делегирование событий // Для этого метода важно прекреплять обработчик
 // событий на общем родительском элементе
-tabsContainers.addEventListener(`click`, function (e) {
+tabsContainers.addEventListener(`click`, e => {
   // Обнаруживается ближайшая вкладка операции(на котторую нажали)
   // Метод Element.closest() возвращает ближайший родительский элемент (или сам элемент)
   const clicked = e.target.closest(`.operations__tab`);
@@ -139,7 +139,9 @@ tabsContainers.addEventListener(`click`, function (e) {
 
 // Эффект затухания меню
 const handleHover = function (e) {
+  // const handleHover = e => {
   // console.log(this, e.currentTarget);
+  // console.log(this);
   if (e.target.classList.contains(`nav__link`)) {
     const link = e.target;
     const siblings = link.closest(`.nav`).querySelectorAll(`.nav__link`);
@@ -153,13 +155,13 @@ const handleHover = function (e) {
   }
 };
 
-///////////////////////////////////////
+/////////////////////////////////////////////////////////
 // Sticky navigation: intersection observer API
 // Липкая навигация: API наблюдателя пересечений
 
 const navHeight = nav.getBoundingClientRect().height;
 
-const stickyNav = function (entries) {
+const stickyNav = entries => {
   const [entry] = entries;
   if (!entry.isIntersecting) nav.classList.add(`sticky`);
   else nav.classList.remove(`sticky`);
@@ -175,7 +177,7 @@ headerObserver.observe(header);
 // Reveal sections // Раскрыть разделы
 const allSection = document.querySelectorAll(`.section`);
 
-const revealSection = function (entries, observer) {
+const revealSection = (entries, observer) => {
   const [entry] = entries;
 
   if (!entry.isIntersecting) return;
@@ -189,7 +191,7 @@ const sectionObserver = new IntersectionObserver(revealSection, {
   threshold: 0.15,
 });
 
-allSection.forEach(function (section) {
+allSection.forEach(section => {
   sectionObserver.observe(section);
   section.classList.add(`section--hidden`);
 });
@@ -200,7 +202,7 @@ allSection.forEach(function (section) {
 // const imgTargets = document.querySelectorAll(`img[data-src]`);
 const imgTargets = document.querySelectorAll(`img[srcset]`);
 
-const loadImg = function (entries, observer) {
+const loadImg = (entries, observer) => {
   const [entry] = entries;
 
   if (!entry.isIntersecting) return;
@@ -208,7 +210,7 @@ const loadImg = function (entries, observer) {
   // Replace src with data-src // Заменить src на data-src
   entry.target.src = entry.target.dataset.src;
 
-  entry.target.addEventListener(`load`, function () {
+  entry.target.addEventListener(`load`, () => {
     entry.target.classList.remove(`lazy-img`);
   });
 
@@ -225,7 +227,7 @@ imgTargets.forEach(img => imgObserver.observe(img));
 
 ///////////////////////////////////////
 // slider // слайдер
-const slider = function () {
+const slider = () => {
   const slides = document.querySelectorAll(`.slide`);
   const btnLeft = document.querySelector(`.slider__btn--left`);
   const btnRight = document.querySelector(`.slider__btn--right`);
@@ -236,8 +238,8 @@ const slider = function () {
 
   // function
 
-  const createDots = function () {
-    slides.forEach(function (_, i) {
+  const createDots = () => {
+    slides.forEach((_, i) => {
       dotContainer.insertAdjacentHTML(
         `beforeend`,
         `<button class="dots__dot" data-slide="${i}"></button>`
@@ -245,7 +247,7 @@ const slider = function () {
     });
   };
 
-  const activateDot = function (slide) {
+  const activateDot = slide => {
     document
       .querySelectorAll(`.dots__dot`)
       .forEach(dot => dot.classList.remove(`dots__dot--active`));
@@ -255,14 +257,14 @@ const slider = function () {
       .classList.add(`dots__dot--active`);
   };
 
-  const goToSlide = function (slide) {
+  const goToSlide = slide => {
     slides.forEach(
       (s, i) => (s.style.transform = `translateX(${100 * (i - slide)}%)`)
     );
   };
 
   // Next slide
-  const nextSlide = function () {
+  const nextSlide = () => {
     if (curSlide === maxSlide - 1) {
       curSlide = 0;
     } else {
@@ -273,7 +275,7 @@ const slider = function () {
     activateDot(curSlide);
   };
 
-  const prevSlide = function () {
+  const prevSlide = () => {
     if (curSlide === 0) {
       curSlide = maxSlide - 1;
     } else {
@@ -283,7 +285,7 @@ const slider = function () {
     activateDot(curSlide);
   };
 
-  const init = function () {
+  const init = () => {
     goToSlide(0);
     createDots();
     activateDot(0);
@@ -294,12 +296,12 @@ const slider = function () {
   btnRight.addEventListener(`click`, nextSlide);
   btnLeft.addEventListener(`click`, prevSlide);
 
-  document.addEventListener(`keydown`, function (e) {
+  document.addEventListener(`keydown`, e => {
     if (e.key === `ArrowLeft`) prevSlide();
     e.key === `ArrowRight` && nextSlide();
   });
 
-  dotContainer.addEventListener(`click`, function (e) {
+  dotContainer.addEventListener(`click`, e => {
     if (e.target.classList.contains(`dots__dot`)) {
       const { slide } = e.target.dataset;
       goToSlide(slide);
