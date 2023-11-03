@@ -752,9 +752,15 @@ h4 {
   }
 
   .header__title {
-    display: flex;
+    grid-template-columns: none;
+    /* display: flex;
     flex-direction: row;
-    flex-wrap: wrap;
+    flex-wrap: wrap; */
+
+    /* flex-flow: wrap;
+    display: flex;
+    flex-direction: column;
+    align-items: center; */
   }
 
   h1 {
@@ -766,6 +772,8 @@ h4 {
   }
 
   .header__img {
+    width: 60%;
+    grid-column: 1;
     transform: none;
   }
 
@@ -784,7 +792,7 @@ h4 {
   .connect {
     display: none;
   }
-  
+
   .footer {
     display: none;
   }
